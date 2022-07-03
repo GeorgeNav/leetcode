@@ -9,12 +9,15 @@
  Do not return anything, modify nums in-place instead.
  */
 function nextPermutation(nums: number[]): void {
-  const getPermutations = (nums: number[]): number[][] => {
+  const sortedPermutations = (nums: number[]): number[][] => {
     if (nums.length === 0) return [];
     if (nums.length === 1) return [nums];
     const numsSorted = [...nums].sort((a, b) => a < b ? -1 : 1);
     let permutations = numsSorted.map((n, i) => {
-      const permutations = getPermutations([...numsSorted.slice(0, i), ...numsSorted.slice(i+1, numsSorted.length)]);
+      const permutations = sortedPermutations([
+        ...numsSorted.slice(0, i),
+        ...numsSorted.slice(i+1, numsSorted.length)
+      ]);
       return permutations.map((combination) => [n, ...combination]);
     }).flat(1);
     permutations = Array.from(new Set(permutations.map((permutation) => permutation.join(''))))
@@ -22,7 +25,7 @@ function nextPermutation(nums: number[]): void {
       .map((permutation) => permutation.map((n) => parseInt(n)));
     return permutations;
   };
-  const permutations = getPermutations(nums);
+  const permutations = sortedPermutations(nums);
   const permutationIndex = permutations.findIndex((permutation) =>
     permutation.every((_, i) => permutation[i] === nums[i])
   );
