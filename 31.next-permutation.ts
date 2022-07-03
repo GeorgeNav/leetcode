@@ -12,23 +12,14 @@ function nextPermutation(nums: number[]): void {
   const getPermutations = (nums: number[]): number[][] => {
     if (nums.length === 0) return [];
     if (nums.length === 1) return [nums];
-    let permutations = nums.map((n, i) => {
-      const permutations = getPermutations([...nums.slice(0, i), ...nums.slice(i+1, nums.length)]);
+    const numsSorted = [...nums].sort((a, b) => a < b ? -1 : 1);
+    let permutations = numsSorted.map((n, i) => {
+      const permutations = getPermutations([...numsSorted.slice(0, i), ...numsSorted.slice(i+1, numsSorted.length)]);
       return permutations.map((combination) => [n, ...combination]);
     }).flat(1);
     permutations = Array.from(new Set(permutations.map((permutation) => permutation.join(''))))
       .map((permutationStr) => permutationStr.split(''))
       .map((permutation) => permutation.map((n) => parseInt(n)));
-    permutations.sort((permutationA, permutationB) => {
-      const a = parseInt(permutationA.join(''));
-      const b = parseInt(permutationB.join(''));
-      if(a < b)
-        return -1;
-      else if(a === b)
-        return 0;
-      else if(a > b)
-        return 1;
-    });
     return permutations;
   };
   const permutations = getPermutations(nums);
