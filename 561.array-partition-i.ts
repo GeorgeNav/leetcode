@@ -11,7 +11,10 @@ function arrayPairSum(nums: number[]): number {
       return [];
     else if (nums.length === 1)
       return [nums];
-    return Array.from(new Set(nums)).map((n) => {
+    const numSet = Array.from(new Set(nums));
+    if (numSet.length === 1)
+      return [nums];
+    return numSet.map((n) => {
       const nPermutations: number[][] = [];
       nums.forEach((k, i) => {
         if (k === n) {
