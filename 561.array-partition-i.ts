@@ -12,12 +12,18 @@ function arrayPairSum(nums: number[]): number {
       return [];
     else if (nums.length === 1)
       return [nums];
-    return Array.from(new Set(nums)).map((n, i) => {
-      const numsRest = [...nums.slice(0, i), ...nums.slice(i + 1, nums.length)];
-      const nHashMap = new Map<number, number>(hashMap);
-      nHashMap.set(n, nHashMap.get(n) - 1);
-      const permutations = getPermutations(numsRest, nHashMap);
-      return permutations.map((permutation) => [n, ...permutation]);
+    return Array.from(new Set(nums)).map((n) => {
+      const nPermutations: number[][] = [];
+      nums.forEach((k, i) => {
+        if (k === n) {
+          const numsRest = [...nums.slice(0, i), ...nums.slice(i + 1, nums.length)];
+          const nHashMap = new Map<number, number>(hashMap);
+          nHashMap.set(n, nHashMap.get(n) - 1);
+          const permutations = getPermutations(numsRest, nHashMap);
+          permutations.forEach((permutation) => nPermutations.push([n, ...permutation]));
+        }
+      });
+      return nPermutations;
     }).flat(1);
   }
   const permutations = getPermutations(
