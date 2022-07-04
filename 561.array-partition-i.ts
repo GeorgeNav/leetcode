@@ -6,7 +6,6 @@
 
 // @lc code=start
 function arrayPairSum(nums: number[]): number {
-  console.log("start")
   const getPermutations = (nums: number[], hashMap: Map<number, number>): number[][] => {
     if (nums.length === 0)
       return [];
