@@ -6,7 +6,7 @@
 
 // @lc code=start
 function arrayPairSum(nums: number[]): number {
-  const getPermutations = (nums: number[], hashMap: Map<number, number>): number[][] => {
+  const getPermutations = (nums: number[]): number[][] => {
     if (nums.length === 0)
       return [];
     else if (nums.length === 1)
@@ -19,18 +19,16 @@ function arrayPairSum(nums: number[]): number {
       nums.forEach((k, i) => {
         if (k === n) {
           const numsRest = [...nums.slice(0, i), ...nums.slice(i + 1, nums.length)];
-          const nHashMap = new Map<number, number>(hashMap);
-          nHashMap.set(n, nHashMap.get(n) - 1);
-          const permutations = getPermutations(numsRest, nHashMap);
+          const numRestSet = Array.from(new Set(numsRest));
+          const permutations = numRestSet.length ? getPermutations(numsRest) : [numRestSet];
           permutations.forEach((permutation) => nPermutations.push([n, ...permutation]));
         }
       });
       return nPermutations;
     }).flat(1);
-  }
+  };
   const permutations = getPermutations(
-    nums,
-    new Map(Array.from(new Set(nums)).map((n) => [n, nums.filter((k) => k === n).length]))
+    nums
   );
   const pairSize = 2;
   const pairPermutations: number[][][] = permutations.map((permutation) => {
