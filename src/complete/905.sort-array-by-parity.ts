@@ -9,7 +9,7 @@ function sortArrayByParity(nums: number[]): number[] {
   const odds: number[] = [];
   const evens: number[] = [];
 
-  nums.map((n) => n % 2 === 0 ? evens.push(n) : odds.push(n));
+  nums.forEach((n) => n % 2 === 0 ? evens.push(n) : odds.push(n));
 
   return [...evens, ...odds];
 };
