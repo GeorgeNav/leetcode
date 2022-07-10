@@ -6,13 +6,16 @@
 
 // @lc code=start
 function findDuplicates(nums: number[]): number[] {
-  const numMap = new Map<number, number>();
-  nums.forEach((n) => {
-    numMap.set(n, (numMap.get(n) ?? 0) + 1);
-  });
-  return Array.from(numMap.entries())
-    .filter(([_, count]) => count > 1)
-    .map(([n]) => n);
-};
+  // `seen` should really just be `new Set<number>()` but that uses way more runtime and memory :(
+  const seen: Record<number, boolean> = {};
+  const result: number[] = [];
+  for (const n of nums) {
+    if (seen[n]) {
+      result.push(n);
+    } else {
+      seen[n] = true;
+    }
+  }
+  return result;
+}
 // @lc code=end
-
