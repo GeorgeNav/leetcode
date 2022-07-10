@@ -6,22 +6,24 @@
 
 // @lc code=start
 function trap(height: number[]): number {
-  let numWaterBlocks = 0;
-  for(let leftWallIndex = 0; leftWallIndex < height.length; leftWallIndex++) {
-    const leftWallHeight = height[leftWallIndex];
-    if(height[leftWallIndex] === 0)
-      continue;
-    const rightWallIndex = height.findIndex((h, i) =>
-      i > leftWallIndex+1 && h >= leftWallHeight);
-    if(rightWallIndex === -1)
-      continue;
-    height.slice(leftWallIndex+1, rightWallIndex)
-      .forEach((underWaterHeight) => {
-        numWaterBlocks += leftWallHeight - underWaterHeight;
-      });
-    leftWallIndex = rightWallIndex-1;
+  let result = 0;
+  let [left_i, right_i] = [0, height.length - 1];
+  let [leftMax, rightMax] = [0, 0];
+  while (left_i < right_i) {
+    if (height[left_i] < height[right_i]) {
+      leftMax = Math.max(leftMax, height[left_i])
+      if (height[left_i] < leftMax) {
+        result += leftMax - height[left_i];
+      }
+      left_i++;
+    } else {
+      rightMax = Math.max(rightMax, height[right_i]);
+      if (height[right_i] < rightMax) {
+        result += rightMax - height[right_i];
+      }
+      right_i--;
+    }
   }
-  return numWaterBlocks;
-};
+  return result;
+}
 // @lc code=end
-
