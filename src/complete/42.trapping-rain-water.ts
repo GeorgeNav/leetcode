@@ -5,25 +5,30 @@
  */
 
 // @lc code=start
-function trap(height: number[]): number {
-  let result = 0;
-  let [left_i, right_i] = [0, height.length - 1];
-  let [leftMax, rightMax] = [0, 0];
-  while (left_i < right_i) {
-    if (height[left_i] < height[right_i]) {
-      leftMax = Math.max(leftMax, height[left_i])
-      if (height[left_i] < leftMax) {
-        result += leftMax - height[left_i];
-      }
-      left_i++;
-    } else {
-      rightMax = Math.max(rightMax, height[right_i]);
-      if (height[right_i] < rightMax) {
-        result += rightMax - height[right_i];
-      }
-      right_i--;
-    }
-  }
-  return result;
+function trap(heights: number[]): number {
+  let total = 0;
+  heights.forEach((height, i) => {
+    let [leftMaxIdx, rightMaxIdx] = [i, i];
+    let [leftMax, rightMax] = [height, height];
+    // find closest tallest wall to the left
+    while (--leftMaxIdx >= 0) {
+      if (heights[leftMaxIdx] > leftMax)
+        leftMax = heights[leftMaxIdx];
+    };
+    if (leftMax === height)
+      return;
+
+    // find closest tallest wall to the right
+    while (++rightMaxIdx < heights.length) {
+      if (heights[rightMaxIdx] > rightMax)
+        rightMax = heights[rightMaxIdx];
+    };
+    if (rightMax === height)
+      return;
+
+    // add to total
+    total += Math.min(leftMax, rightMax) - height;
+  });
+  return total;
 }
 // @lc code=end
