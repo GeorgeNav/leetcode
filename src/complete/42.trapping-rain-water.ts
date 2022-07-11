@@ -8,25 +8,12 @@
 function trap(heights: number[]): number {
   let total = 0;
   heights.forEach((height, i) => {
-    let [leftMaxIdx, rightMaxIdx] = [i, i];
-    let [leftMax, rightMax] = [height, height];
-    // find closest tallest wall to the left
-    while (--leftMaxIdx >= 0) {
-      if (heights[leftMaxIdx] > leftMax)
-        leftMax = heights[leftMaxIdx];
-    };
+    const leftMax = Math.max(...heights.slice(0, i + 1));
     if (leftMax === height)
       return;
-
-    // find closest tallest wall to the right
-    while (++rightMaxIdx < heights.length) {
-      if (heights[rightMaxIdx] > rightMax)
-        rightMax = heights[rightMaxIdx];
-    };
+    const rightMax = Math.max(...heights.slice(i, heights.length));
     if (rightMax === height)
       return;
-
-    // add to total
     total += Math.min(leftMax, rightMax) - height;
   });
   return total;
