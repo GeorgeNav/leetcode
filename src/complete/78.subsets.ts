@@ -9,17 +9,17 @@ function subsets(nums: number[]): number[][] {
   // reference: https://www.youtube.com/watch?v=REOH22Xwdkk&ab_channel=NeetCode
   const subsets: number[][] = [];
   const subset: number[] = [];
-  const combinations = (i: number): void => {
+  const getSubset = (i: number): void => {
     if (i >= nums.length) {
       subsets.push([...subset])
       return;
     }
     subset.push(nums[i]); // include current number
-    combinations(i + 1); // find all combinations with current number
+    getSubset(i + 1); // find all combinations with current number
     subset.pop(); // remove current number
-    combinations(i + 1); // find all combinations without current number
+    getSubset(i + 1); // find all combinations without current number
   };
-  combinations(0);
+  getSubset(0);
   return subsets;
 };
 // @lc code=end
