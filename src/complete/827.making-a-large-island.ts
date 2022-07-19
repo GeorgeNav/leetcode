@@ -44,12 +44,15 @@ function largestIsland(grid: number[][]): number {
   for (let y = 0; y < n; y++) {
     for (let x = 0; x < n; x++) {
       if (grid[y][x] === 1) {
+        // Search the island and overwrite its members with an id
         result = Math.max(result, searchIsland(x, y, curId++));
       } else if (grid[y][x] === 0) {
+        // This is an empty space, so record the sizes of its distinct neighboring islands
         const islands: Record<Id, Size> = {};
 
         for (const [nx, ny] of neighbors(x, y)) {
           if (grid[ny][nx] === 1) {
+            // The neighbor is in an island we haven't seen yet
             result = Math.max(result, searchIsland(nx, ny, curId++));
           }
           if (grid[ny][nx] > 1) {
